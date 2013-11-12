@@ -8,11 +8,11 @@ class bNode():
     
     leftNode = None
     rightNode = None
+    parentNode = None
     data = 0
     
-    def __init__(self, rightNode, leftNode, data):
-        self.leftNode = leftNode
-        self.rightNode = rightNode
+    def __init__(self, parentNode, data):
+        self.parentNode = parentNode
         self.data = data
     
         
@@ -28,18 +28,29 @@ class BinaryTree():
         '''
         Constructor
         '''
-        
+    
     def insertData(self, root, data):
+        newNode = self.insertHeapData(None, root, data)
+        self.swapParent(newNode)
+        
+    def insertHeapData(self, parentNode, root, data):
 
         if root == None:
             #insert node at the root
-            return bNode(None, None, data)
+            return bNode(parentNode, data)
         else:
             if data <= root.data: 
-                root.leftNode = self.insertData(root.leftNode, data)
+                root.leftNode = self.insertHeapData(root, root.leftNode, data)
             else:
-                root.rightNode = self.insertData(root.rightNode, data)
+                root.rightNode = self.insertHeapData(root, root.rightNode, data)
         return root
+    
+    def swapParent(self, root):
+        if root.parentNode != None:
+            if root.parentNode.data < root.data:
+                root.parentNode.data = root.data
+                self.swapParent(root.parentNode)
+    
     
     def traverseTree(self, root):
         print(root.data)
@@ -55,10 +66,12 @@ class BinaryTree():
 
 if __name__ == "__main__":
     tree = BinaryTree()
-    root = bNode(None, None, 10)
+    root = bNode(None, 10)
     tree.rootNode = root;
     tree.insertData(root, 5)
     tree.insertData(root, 6)
+    tree.insertData(root, 4)
+    tree.insertData(root, 1)
     tree.insertData(root, 3)
     tree.insertData(root, 12)
     tree.traverseTree(root)
