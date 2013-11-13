@@ -17,7 +17,7 @@ class bNode():
     
         
     
-class BinaryTree():
+class BinaryHeapTree():
     '''
     Simple binary tree
     '''
@@ -30,14 +30,16 @@ class BinaryTree():
         '''
     
     def insertData(self, root, data):
-        newNode = self.insertHeapData(None, root, data)
-        self.swapParent(newNode)
+        self.insertHeapData(None, root, data)
+
         
     def insertHeapData(self, parentNode, root, data):
 
         if root == None:
             #insert node at the root
-            return bNode(parentNode, data)
+            node = bNode(parentNode, data)
+            self.swapParent(node)
+            return node
         else:
             if data <= root.data: 
                 root.leftNode = self.insertHeapData(root, root.leftNode, data)
@@ -48,7 +50,7 @@ class BinaryTree():
     def swapParent(self, root):
         if root.parentNode != None:
             if root.parentNode.data < root.data:
-                root.parentNode.data = root.data
+                root.parentNode.data, root.data = root.data, root.parentNode.data
                 self.swapParent(root.parentNode)
     
     
@@ -65,7 +67,7 @@ class BinaryTree():
     
 
 if __name__ == "__main__":
-    tree = BinaryTree()
+    tree = BinaryHeapTree()
     root = bNode(None, 10)
     tree.rootNode = root;
     tree.insertData(root, 5)
