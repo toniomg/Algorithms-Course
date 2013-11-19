@@ -38,7 +38,7 @@ class BinaryHeapTree():
         if root == None:
             #insert node at the root
             node = bNode(parentNode, data)
-            self.swapParent(node)
+            #self.swapParent(node)
             return node
         else:
             if data <= root.data: 
@@ -47,6 +47,18 @@ class BinaryHeapTree():
                 root.rightNode = self.insertHeapData(root, root.rightNode, data)
         return root
     
+    def maxK(self, root):
+        if root.rightNode == None:
+            return root.data
+        else:
+            return self.maxK(root.rightNode)
+    
+    def minK(self, root):
+        if root.leftNode == None:
+            return root.data
+        else:
+            return self.minK(root.leftNode)
+        
     def swapParent(self, root):
         if root.parentNode != None:
             if root.parentNode.data < root.data:
@@ -68,15 +80,17 @@ class BinaryHeapTree():
 
 if __name__ == "__main__":
     tree = BinaryHeapTree()
-    root = bNode(None, 10)
+    root = bNode(None, 0)
     tree.rootNode = root;
+    tree.insertData(root, 1)
+    tree.insertData(root, 2)
+    tree.insertData(root, 3)
+    tree.insertData(root, 4)
     tree.insertData(root, 5)
     tree.insertData(root, 6)
-    tree.insertData(root, 4)
-    tree.insertData(root, 1)
-    tree.insertData(root, 3)
-    tree.insertData(root, 12)
     tree.traverseTree(root)
+    print(tree.maxK(root))
+    print(tree.minK(root))
     
                 
             
